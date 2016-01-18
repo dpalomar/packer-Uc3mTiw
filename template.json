@@ -1,0 +1,107 @@
+{
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/build_time.sh",
+        "scripts/apt.sh",
+        "scripts/sudo.sh",
+        "scripts/vagrant.sh",
+        "scripts/jdk8.sh",
+        "scripts/maven.sh",
+        "scripts/desktop.sh",
+        "scripts/tiw.sh",
+        "scripts/yppa.sh",
+        "scripts/chromium.sh",
+        "scripts/mysql.sh",
+        "scripts/eclipse.sh",
+        "scripts/glassfish.sh",
+        "scripts/vbox.sh",
+        "scripts/optimized.sh",
+        "scripts/cleanup.sh"
+      ],
+      "override": {
+        "virtualbox-iso": {
+          "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
+        }
+      }
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<esc><wait>",
+        "linux noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg <wait>",
+        "debian-installer=es_ES auto locale=es_ES kbd-chooser/method=es <wait>",
+        "hostname={{ .Name }} <wait>",
+        "fb=false debconf/frontend=noninteractive <wait>",
+        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=es keyboard-configuration/variant=es console-setup/ask_detect=false <wait>",
+        "console-setup/ask_detect=false console-setup/modelcode=pc105 console-setup/layoutcode=es <wait>",
+        "initrd=initrd.gz -- <enter><wait>"
+      ],
+      "boot_wait": "4s",
+      "disk_size": 40960,
+      "guest_os_type": "Ubuntu_64",
+      "http_directory": "http",
+      "iso_checksum": "7297321c2fa6424417a548c85edd6e98",
+      "iso_checksum_type": "md5",
+      "iso_url": "http://archive.ubuntu.com/ubuntu/dists/trusty/main/installer-amd64/current/images/netboot/mini.iso",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'shutdown -P now' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+	  "vm_name": "uc3mTiw",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "2048"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vram",
+          "128"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--ioapic",
+          "on"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--clipboard",
+          "bidirectional"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--hwvirtex",
+          "on"
+        ]
+      ]
+    }
+  ], 
+    "description":  "A minimal developer box with **JDK8, Eclipse Mars, Maven-3.3.x, Glassfish-4.0, MySql server** and **MySql Workbench**. MySql-connector-J already installed and **asadmin** tool accesible throught the user path. Based on Lubuntu-core without libreoffice, video, audio or other heavy software installed. Developer user/password tiw/tiw. Spanish desktop language by default. ",  
+    "push": {
+    "name": "dpalomar/uc3mTiw"
+  },
+  "post-processors": [{
+    "type": "atlas",
+    "artifact": "dpalomar/uc3mTiw",
+    "artifact_type": "vagrant.box"
+	}]
+}
