@@ -43,6 +43,7 @@
       "boot_wait": "4s",
       "disk_size": 40960,
       "guest_os_type": "Ubuntu_64",
+	  "headless": false,
       "http_directory": "http",
       "iso_checksum": "7297321c2fa6424417a548c85edd6e98",
       "iso_checksum_type": "md5",
@@ -50,6 +51,7 @@
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
+	  "ssh_timeout": "10000s",
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'shutdown -P now' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
@@ -99,9 +101,19 @@
     "push": {
     "name": "dpalomar/uc3mTiw"
   },
-  "post-processors": [{
+  "post-processors": [[
+  { 
+    "type": "vagrant",
+	"keep_input_artifact": false
+  },
+  {
     "type": "atlas",
+	"only": ["virtualbox-iso"],
     "artifact": "dpalomar/uc3mTiw",
-    "artifact_type": "vagrant.box"
-	}]
+    "artifact_type": "vagrant.box",
+	"metadata": {
+                "provider": "virtualbox",
+                "version": "0.0.2"
+            }
+	}]]
 }
