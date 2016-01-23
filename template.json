@@ -31,23 +31,24 @@
     {
       "type": "virtualbox-iso",
       "boot_command": [
-        "<esc><wait>",
-        "linux noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg <wait>",
+        "<esc><esc><enter><wait>",
+        "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg <wait>",
         "debian-installer=es_ES auto locale=es_ES kbd-chooser/method=es <wait>",
         "hostname={{ .Name }} <wait>",
         "fb=false debconf/frontend=noninteractive <wait>",
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=es keyboard-configuration/variant=es console-setup/ask_detect=false <wait>",
         "console-setup/ask_detect=false console-setup/modelcode=pc105 console-setup/layoutcode=es <wait>",
-        "initrd=initrd.gz -- <enter><wait>"
+        "initrd=/install/initrd.gz -- <enter><wait>"
       ],
-      "boot_wait": "4s",
+      "boot_wait": "20s",
       "disk_size": 40960,
       "guest_os_type": "Ubuntu_64",
-	  "headless": false,
+	  "headless": true,
       "http_directory": "http",
-      "iso_checksum": "7297321c2fa6424417a548c85edd6e98",
+      "iso_checksum": "9e5fecc94b3925bededed0fdca1bd417",
+
       "iso_checksum_type": "md5",
-      "iso_url": "http://archive.ubuntu.com/ubuntu/dists/trusty/main/installer-amd64/current/images/netboot/mini.iso",
+      "iso_url": "http://releases.ubuntu.com/trusty/ubuntu-14.04.3-server-amd64.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -101,7 +102,7 @@
     "push": {
     "name": "dpalomar/uc3mTiw"
   },
-  "post-processors": [[
+"post-processors": [[
   { 
     "type": "vagrant",
 	"keep_input_artifact": false
