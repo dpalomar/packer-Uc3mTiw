@@ -1,0 +1,71 @@
+---
+# tasks file for ansible-role-glassfish
+#- debug: msg="Download URL  {{ glassfish_mirror }}/{{ glassfish_redis_filename }}"
+#- debug: var=glassfish_redis_filename
+#- debug: var=glassfish_install_dir
+#- debug: msg="Download directory {{ glassfish_download_dir }}/{{ glassfish_redis_filename }}"
+#- name: create download directory
+#  file:
+#    state: directory
+#    mode: 'u=rwx,go=rx'
+#    dest: "{{ glassfish_download_dir }}"
+- name: Download glassfish
+  get_url:
+    url: "{{ glassfish_mirror }}/{{ glassfish_redis_filename }}"
+    dest: "{{ glassfish_download_dir }}/{{ glassfish_redis_filename }}"
+    mode: 'u=rw,go=r'
+    timeout: 1000
+#    force: yes
+- name: create Glassfish installation directory
+  become: yes
+  file:
+    state: directory
+    owner: root
+    group: root
+    mode: 'u=rwx,go=rx'
+    dest: "{{ glassfish_install_dir }}"
+- name: install Glassfish
+  become: yes
+  unarchive:
+    src: "{{ glassfish_download_dir }}/{{ glassfish_redis_filename }}"
+    dest: "{{ glassfish_install_dir }}"
+    copy: false
+    owner: root
+    group: root
+    mode: 'u=rwx,go=rx'
+#   creates: "{{ glassfish_install_dir }}/glassfish-{{ glassfish_version }}"
+- name: Add asadmin to tiw bashrc
+  lineinfile: dest=/home/{{ glassfish_user }}/.bashrc 
+       line='export PATH={{ glassfish_install_dir}}/{{ glassfish_product }}/bin:$PATH' 
+       insertafter='EOF' 
+       state=present
+- name: Copy password file to tmp
+  become: yes
+  template:
+    src: password.j2 
+    dest: "{{ glassfish_download_dir }}/password.txt"
+    owner: root
+    group: root
+    mode: 'u=rwx,go=rx'
+- name: Change admin password
+  command: >
+   {{ glassfish_install_dir}}/{{ glassfish_product }}/bin/asadmin 
+   --user admin 
+   --passwordfile {{ glassfish_download_dir }}/password.txt 
+   change-admin-password 
+   --domain_name domain1
+- name: put default admin password in file.
+  lineinfile: dest={{ glassfish_download_dir}}/password.txt
+    regexp='AS_ADMIN_PASSWORD='
+    line='AS_ADMIN_PASSWORD=admin'
+    state=present    
+- name: Start/stop domain1 introducing security password.
+  shell: "{{ glassfish_install_dir}}/{{ glassfish_product }}/bin/asadmin start-domain && {{ glassfish_install_dir}}/{{ glassfish_product }}/bin/asadmin --passwordfile /tmp/password.txt --host localhost --port 4848 enable-secure-admin && {{ glassfish_install_dir}}/{{ glassfish_product }}/bin/asadmin stop-domain"
+ 
+- include: connectorJ.yml
+- name: Removing password file
+  file: path="{{ glassfish_download_dir}}/password.txt"
+    state=absent
+- name: Removing Glassfish/Payara file
+  file: path="{{ glassfish_download_dir }}/{{ glassfish_redis_filename }}"
+   state=absent

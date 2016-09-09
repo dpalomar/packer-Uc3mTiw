@@ -1,0 +1,8 @@
+---
+# defaults file for ansible-role-jboss-forge
+forge_version: "3.3.0.Final"
+forge_url: "http://downloads.jboss.org/forge/releases"
+forge_download_dir: /tmp
+forge_install_dir: /usr/local/jboss
+forge_file_dist: "forge-distribution-{{ forge_version }}"
+forge_user_to_bashrc: "tiw"

@@ -1,1 +1,3 @@
-*.orig
+packer_cache/*
+*.box
+iso/*

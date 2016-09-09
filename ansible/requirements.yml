@@ -1,0 +1,10 @@
+- src: mrlesmithjr.oracle-java8
+- src: angstwad.docker_ubuntu
+- src: ansible-role-tiw-user
+- src: mrlesmithjr.oracle-java8
+- src: ansible-role-sts
+- src: gantsign.maven
+- src: geerlingguy.mysql
+- src: ansible-role-mysqlworkbench
+- src: ansible-role-glassfish
+- src: ansible-role-jboss-forge

@@ -1,0 +1,10 @@
+---
+- name: Creating TIW user
+  user:
+      name=tiw
+      comment="Tecnologias de Internet para la web"
+      shell=/bin/bash
+      groups=sudo,docker 
+      append=yes
+      password=F1vXeHdsVT1hw
+# tasks file for ansible-role-tiw-user

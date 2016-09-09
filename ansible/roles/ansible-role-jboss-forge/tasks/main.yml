@@ -1,0 +1,28 @@
+---
+# tasks file for ansible-role-jboss-forge
+- name: Create the install directory
+  become: yes
+  file: path={{ forge_install_dir }} state=directory mode=0755 
+- name: Download forge
+  get_url:
+    url: "{{ forge_url}}/{{ forge_version}}/{{ forge_file_dist }}-offline.zip"
+    dest: "{{ forge_download_dir }}/{{ forge_file_dist }}-offline.zip"
+    timeout: 1000
+- name:  unarchive forge
+  become: yes
+  unarchive: 
+    src: "{{ forge_download_dir }}/{{ forge_file_dist }}-offline.zip"
+    dest: "{{ forge_install_dir }}"
+
+- name: Path to user bashrc
+  lineinfile: 
+    dest: "/home/{{ forge_user_to_bashrc }}/.bashrc"
+    line: "{{ item.line }}"
+  with_items:
+    - { line: 'export FORGE_HOME={{ forge_install_dir }}/{{ forge_file_dist }}' } 
+    - { line: 'export PATH=$FORGE_HOME/bin:$PATH'  }
+
+- name: Remove download temps
+  file: 
+    path: "{{ forge_download_dir }}/{{ forge_file_dist }}-offline.zip"
+    state: absent
