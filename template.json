@@ -31,27 +31,26 @@
     {
       "type": "virtualbox-iso",
       "boot_command": [
-        "<Esc><Esc><Enter>",
+        "<esc><esc><enter><wait>",
         "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg <wait>",
         "debian-installer=es_ES auto locale=es_ES kbd-chooser/method=es <wait>",
         "hostname={{ .Name }} <wait>",
         "fb=false debconf/frontend=noninteractive <wait>",
         "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=es keyboard-configuration/variant=es console-setup/ask_detect=false <wait>",
         "console-setup/ask_detect=false console-setup/modelcode=pc105 console-setup/layoutcode=es <wait>",
-        "initrd=/install/initrd.gz -- <Enter>"
+        "initrd=/install/initrd.gz -- <enter><wait>"
       ],
-      "boot_wait": "4s",
+      "boot_wait": "20s",
       "disk_size": 40960,
       "guest_os_type": "Ubuntu_64",
-	  "headless": false,
+	  "headless": true,
       "http_directory": "http",
-      "iso_checksum": "9e5fecc94b3925bededed0fdca1bd417",
+
       "iso_checksum_type": "md5",
       "iso_url": "http://releases.ubuntu.com/trusty/ubuntu-14.04.3-server-amd64.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
-	  "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'shutdown -P now' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
@@ -97,8 +96,9 @@
     }
   ], 
     "description":  "A minimal developer box with **JDK8, Eclipse Mars, Maven-3.3.x, Glassfish-4.0, MySql server** and **MySql Workbench**. MySql-connector-J already installed and **asadmin** tool accesible throught the user path. Based on Lubuntu-core without libreoffice, video, audio or other heavy software installed. Developer user/password tiw/tiw. Spanish desktop language by default. ",  
-   "post-processors": [[
+    "push": {
+    "name": "dpalomar/uc3mTiw"
+  },
+"post-processors": [[
   { 
-    "type": "vagrant"
-   }]]
 }
