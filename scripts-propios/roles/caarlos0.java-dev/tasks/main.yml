@@ -1,7 +1,0 @@
-- include: main_{{ ansible_distribution }}.yml
-  become: "{{ ansible_distribution == 'Ubuntu' }}"
-- package: name={{ item }}
-  become: "{{ ansible_distribution == 'Ubuntu' }}"
-  with_items:
-    - gradle
-    - maven

@@ -1,3 +1,0 @@
-[Desktop Entry]
-Type=Application
-Exec=lxterminal -e docker stop mysql
