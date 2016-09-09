@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/tiw/Documents/mysql-workbench.sh
+Terminal=false

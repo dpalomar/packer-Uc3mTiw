@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  become: true
+  pre_tasks:
+   - name: Update cache if is needed
+      apt: update_cache=yes cache_valid_time=3600
+  roles:
+  - angstwad.docker_ubuntu
+  - ansible-role-tiw-user
+  - mrlesmithjr.oracle-java8
+  - ansible-role-sts
+  - gantsign.maven
+  - geerlingguy.mysql
+  - ansible-role-mysqlworkbench
+  - ansible-role-glassfish
+  tasks:
+  - apt: "name={{ item }} state=installed"
+      with_items:
+        - git
+        - wget
+        - curl
+        - vim
+        - mysql-workbench
+        - chromium-browser
+  - file:
+     path=/opt
+     owner=tiw
+     group=tiw
+     mode="u=rwx,g=rx,o=rx"
+     recurse=yes
+    

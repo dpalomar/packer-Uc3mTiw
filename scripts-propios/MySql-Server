@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Exec=lxterminal -e /home/tiw/Documents/mysql-server.sh
+Terminal=false
