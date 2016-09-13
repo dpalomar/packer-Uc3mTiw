@@ -1,10 +1,12 @@
-# Packer Example - Ubuntu 16.04 minimal Vagrant Box
+# Packer project - Reduced developer desktop image Lubuntu 16.04  Vagrant Box
 
-<!-- MarkdownTOC -->
+<!-- MarkdownTOC depth=3 -->
 
 - [Features](#features)
 - [Requirements](#requirements)
 - [Usage](#usage)
+  - [User accounts](#user-accounts)
+  - [Shared folder](#shared-folder)
 - [License](#license)
 - [Author Information](#author-information)
 
@@ -15,7 +17,7 @@
 
 **Current Ubuntu Version Used**: 16.04.1
 
-This example build configuration installs and configures Ubuntu 16.04 x86_64 minimal using __Ansible__, and then generates two Vagrant box files, for:
+This project build configuration installs and configures Ubuntu 16.04 x86_64 minimal using __Ansible__, and then generates two Vagrant box files, for:
 
   - VirtualBox
   - VMware
@@ -23,7 +25,7 @@ This example build configuration installs and configures Ubuntu 16.04 x86_64 min
 This image configures a developer box with following requirements:
 
 - Ubuntu 16.04
-- Lubuntu Desktop
+- Lubuntu Core Desktop
 - JDK 8
 - Spring Tool Suite
 - Maven
@@ -38,6 +40,7 @@ This image configures a developer box with following requirements:
 - Starts MySql like service
 - Add asadmin tool on the developer PATH
 - Right permissions for update and install plugins on eclipse with developer account 
+- Developer account has root rights, sudo and docker groups
 
 __Does not contain__
 
@@ -61,7 +64,7 @@ You will also need some Ansible roles installed so they can be used in the build
   1. Run `$ ansible-galaxy install -r requirements.yml` in this directory.
   2. If your local Ansible roles path is not the default (`/etc/ansible/roles`), update the `role_paths` inside `ubuntu1604.json` to match your custom location.
 
-If you don't have Ansible installed (perhaps you're using a Windows PC?), you can simply clone the required Ansible roles from GitHub directly (use [Ansible Galaxy](https://galaxy.ansible.com/) to get the GitHub repository URLs for each role listed in `requirements.txt`), and update the `role_paths` variable to match the location of the cloned role.
+If you don't have Ansible installed (perhaps you're using a Windows PC?), you can simply clone the required Ansible roles from GitHub directly (use [Ansible Galaxy](https://galaxy.ansible.com/) to get the GitHub repository URLs for each role listed in `requirements.yml`), and update the `role_paths` variable to match the location of the cloned role.
 
 ## Usage
 
@@ -75,9 +78,20 @@ If you want to only build a box for one of the supported virtualization platform
 
     $ packer build --only=vmware-iso ubuntu1604.json
 
-I you like virtualbox use: 
+If you want virtualbox use: 
 
       $ packer build --only=virtualbox-iso ubuntu1604.json
+
+### User accounts
+
+- __Developer__: tiw/tiw (root rights, no sudo password)
+- __Payara__: admin/admin
+- __MySql__: root/admin
+
+### Shared folder
+
+- /vagrant
+
 
 ## License
 
@@ -85,4 +99,4 @@ MIT license.
 
 ## Author Information
 
-Created in 2016 by David Palomar based on a template by [Jeff Geerling](http://jeffgeerling.com/) and modified with some great stuff from Bento project.
+Created in 2016 by David Palomar based on a template by [Jeff Geerling](http://jeffgeerling.com/) and modified with some great stuff from Bento project and a lot of hours.
