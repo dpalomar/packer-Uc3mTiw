@@ -5,8 +5,8 @@
 - [Features](#features)
 - [Requirements](#requirements)
 - [Usage](#usage)
-  - [User accounts](#user-accounts)
-  - [Shared folder](#shared-folder)
+    - [User accounts](#user-accounts)
+    - [Shared folder](#shared-folder)
 - [License](#license)
 - [Author Information](#author-information)
 
@@ -81,6 +81,10 @@ If you want to only build a box for one of the supported virtualization platform
 If you want virtualbox use: 
 
       $ packer build --only=virtualbox-iso ubuntu1604.json
+
+Also, you could test the image with Vagrant.
+
+            vagrant init dpalomar/uc3mTiw; vagrant up
 
 ### User accounts
 
