@@ -224,12 +224,12 @@
     "metadata": "floppy/dummy_metadata.json",
     "mirror": "http://releases.ubuntu.com",
     "mirror_directory": "16.04",
-    "name": "dpalomar/test",
+    "name": "dpalomar/uc3mtiw",
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "preseed.cfg",
     "template": "ubuntu-16.04-amd64",
-    "version": "0.1.4",
-	"description": "Testing step by step to debug",
+    "version": "0.3.0",
+    "description": "A reduced developer box with: Ubuntu 16.04. JDK8, Spring Source Tool Suite. Maven-3.3.x Glassfish/Payara Server 4.1 Full. MySql server and MySql Workbench. Docker JBoss Forge MySql-connector-J already installed on Payara and asadmin tool accesible throught the user path. Based on Lubuntu-core without libreoffice, video, audio or other heavy software installed. Developer user/password tiw/tiw. English language.",
     "path_roles": "ansible"
   }
 }
